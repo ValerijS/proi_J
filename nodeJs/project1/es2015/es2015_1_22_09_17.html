@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+ <!--
+ Definition and Usage
+The map() method creates a new array with the results of calling a function for every array element.
+
+The map() method calls the provided function once for each element in an array, in order.
+
+Note: map() does not execute the function for array elements without values.
+
+Note: map() does not change the original array.
+
+Browser Support
+The numbers in the table specify the first browser version that fully supports the method.
+Syntax
+array.map(function(currentValue, index, arr), thisValue)
+Parameter Values
+Parameter	Description
+function(currentValue, index, arr)	Required. A function to be run for each element in the array.
+Function arguments:
+Argument	Description
+currentValue	Required. The value of the current element
+index	Optional. The array index of the current element
+arr	Optional. The array object the current element belongs to
+thisValue	Optional. A value to be passed to the function to be used as its "this" value.
+If this parameter is empty, the value "undefined" will be passed as its "this" value
+
+ Introduction
+
+ECMAScript 2015 is an ECMAScript standard that was ratified in June 2015.
+ES2015 is a significant update to the language, and the first major update to the language since ES5 was standardized in 2009. Implementation of these features in major JavaScript engines is underway now.
+
+See the ES2015 standard for full specification of the ECMAScript 2015 language.
+
+ECMAScript 2015 Features
+
+
+Arrows and Lexical This
+Arrows are a function shorthand using the => syntax. They are syntactically similar to the related feature in C#, Java 8 and CoffeeScript. They support both expression and statement bodies. Unlike functions, arrows share the same lexical this as their surrounding code. If an arrow is inside another function, it shares the “arguments” variable of its parent function.
+ -->
+<body>
+
+
+
+<p id="demo"></p>
+
+<script>
+var evens = [2,4,6,8,10], fives = []; 
+ 
+// Expression bodies
+var odds = evens.map(v => v + 1);
+var nums = evens.map((v, i) => v + i);
+var odds = evens.map(function (v) {
+  return v + 1;
+});
+var nums = evens.map(function (v, i) {
+  return v + i;
+}); 
+// Statement bodies 
+nums.forEach(v => {
+  if (v % 5 === 0)
+    fives.push(v);
+});
+ nums.forEach(function (v) {
+  if (v % 5 === 0) fives.push(v);
+});
+  //Lexical this
+var bob = {
+  _name: "Bob",
+  _friends: ['bug'],
+  printFriends() {
+    this._friends.forEach(f =>
+      console.log(this._name + " knows " + f));
+   return this._name;
+  }
+};
+ var bob = {
+  _name: "Bob",
+  _friends: ['bur'],
+  printFriends: function printFriends() {
+    var _this = this;
+
+    this._friends.forEach(function (f) {
+      return console.log(_this._name + " knows " + f);
+    });
+  }
+};
+ bob.printFriends()
+ // Lexical arguments
+function square() {
+  let example = () => {
+    let numbers = [];
+    for (let number of arguments) {
+      numbers.push(number * number);
+    }
+
+    return numbers;
+  };
+
+  return example();
+}
+
+square(2, 4, 7.5, 8, 11.5, 21); // returns: [4, 16, 56.25, 64, 132.25, 441]
+function square() {
+  var _arguments = arguments;
+
+  var example = function example() {
+    var numbers = [];
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = _arguments[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var number = _step.value;
+
+        numbers.push(number * number);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
+    return numbers;
+  };
+
+  return example();
+}
+
+square(2, 4, 7.5, 8, 11.5, 21); // returns: [4, 16, 56.25, 64, 132.25, 441]
+
+//Classes
+//ES2015 classes are a simple sugar over the prototype-based OO pattern. Having a single convenient declarative form makes class patterns easier to use, and encourages interoperability. Classes support prototype-based inheritance, super calls, instance and static methods and constructors.
+//THREE.Mesh
+inst = class SkinnedMesh extends String {
+  constructor(geometry, materials) {
+    super(geometry, materials);
+
+    this.idMatrix = SkinnedMesh.defaultMatrix();
+    this.bones = [77];
+    this.boneMatrices = [];
+    //...
+  }
+  update(camera) {
+    //...
+    super.update();
+  }
+  static defaultMatrix() {
+    return new THREE.Matrix4();
+  }
+}
+ 
+ 
+//var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+//
+//var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+//
+//function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+//
+//function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+//
+//function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+//
+//var SkinnedMesh = function (_THREE$Mesh) {
+//  _inherits(SkinnedMesh, _THREE$Mesh);
+//
+//  function SkinnedMesh(geometry, materials) {
+//    _classCallCheck(this, SkinnedMesh);
+//
+//    var _this = _possibleConstructorReturn(this, (SkinnedMesh.__proto__ || Object.getPrototypeOf(SkinnedMesh)).call(this, geometry, materials));
+//
+//    _this.idMatrix = SkinnedMesh.defaultMatrix();
+//    _this.bones = [];
+//    _this.boneMatrices = [];
+//    //...
+//    return _this;
+//  }
+//
+//  _createClass(SkinnedMesh, [{
+//    key: "update",
+//    value: function update(camera) {
+//      //...
+//      _get(SkinnedMesh.prototype.__proto__ || Object.getPrototypeOf(SkinnedMesh.prototype), "update", this).call(this);
+//    }
+//  }], [{
+//    key: "defaultMatrix",
+//    value: function defaultMatrix() {
+//      return new THREE.Matrix4();
+//    }
+//  }]);
+//
+//  return SkinnedMesh;
+//}(THREE.Mesh); 
+//
+//Object literals are extended to support setting the prototype at construction, shorthand for foo: foo assignments, defining methods and making super calls. Together, these also bring object literals and class declarations closer together, and let object-based design benefit from some of the same conveniences.
+
+
+
+//var obj = {
+//    // Sets the prototype. "__proto__" or '__proto__' would also work.
+//    __proto__: theProtoObj,
+//    // Computed property name does not set prototype or trigger early error for
+//    // duplicate __proto__ properties.
+//    ['__proto__']: 'somethingElse',
+//    // Shorthand for ‘handler: handler’
+//    handler,
+//    // Methods
+//    toString() {
+//     // Super calls
+//     return "d " + super.toString();
+//    },
+//    // Computed (dynamic) property names
+//    [ "prop_" + (() => 42)() ]: 42
+//};
+// Basic literal string creation
+`This is a pretty little template string.`
+
+// Multiline strings
+`In ES5 this is
+ not legal.`
+
+// Interpolate variable bindings
+var name = "Bob", time = "today";
+`Hello ${name}, how are you ${time}?`
+
+// Unescaped template strings
+String.raw`In ES5 "\n" is a line-feed.`
+
+// Construct an HTTP request prefix is used to interpret the replacements and construction
+GET`http://foo.org/bar?a=${a}&b=${b}
+    Content-Type: application/json
+    X-Credentials: ${credentials}
+    { "foo": ${foo},
+      "bar": ${bar}}`(myOnReadyStateChangeHandler);
+document.getElementById("demo").innerHTML = obj.toString();
+ console.log('w1',inst);
+</script>
+
+</body>
+</html>

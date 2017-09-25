@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <script>
+   /*
+   Промисификация – это когда берут асинхронный функционал и делают для него обёртку, возвращающую промис.
+
+После промисификации использование функционала зачастую становится гораздо удобнее.
+
+В качестве примера сделаем такую обёртку для запросов при помощи XMLHttpRequest.
+
+Функция httpGet(url) будет возвращать промис, который при успешной загрузке данных с url будет переходить в fulfilled с этими данными, а при ошибке – в rejected с информацией об ошибке:
+function httpGet(url) {
+
+  return new Promise(function(resolve, reject) {
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+
+    xhr.onload = function() {
+      if (this.status == 200) {
+        resolve(this.response);
+      } else {
+        var error = new Error(this.statusText);
+        error.code = this.status;
+        reject(error);
+      }
+    };
+
+    xhr.onerror = function() {
+      reject(new Error("Network Error"));
+    };
+
+    xhr.send();
+  });
+
+}
+Как видно, внутри функции объект XMLHttpRequest создаётся и отсылается как обычно, при onload/onerror вызываются, соответственно, resolve (при статусе 200) или reject.
+
+Использование:
+
+ httpGet("/article/promise/user.json")
+  .then(
+    response => alert(`Fulfilled: ${response}`),
+    error => alert(`Rejected: ${error}`)
+  );
+   */
+    'use strict';
+    'use strict';
+    var xhr = new XMLHttpRequest();
+    function httpGet(url) {
+
+  return new Promise(function(resolve, reject) {
+
+    var xhr = new XMLHttpRequest();
+    console.log('b4',xhr,'b4');
+//Открывает файл - мой comment     
+    xhr.open('GET', url, true);
+//console.log('b5',fil,'b5');
+//lithing event      
+    xhr.onload = function() {
+      if (this.status == 200) {
+        resolve(this.response);
+      } else {
+        var error = new Error(this.statusText);
+        error.code = this.status;
+        reject(error);
+      }
+    };
+
+    xhr.onerror = function() {
+      reject(new Error("Network Error"));
+    };
+console.log('c1', xhr, xhr.response,'c1');
+    xhr.send();
+  });
+        
+
+}  
+    // сделать запрос
+    httpGet('/package.json')
+      // 1. Получить данные о пользователе в JSON и передать дальше
+      .then(response => {
+        console.log('a6',response);
+        let user = JSON.parse(response);
+        return user;
+      })
+      // 2. Получить информацию с github
+      .then(user => {
+        console.log('a9',user);
+        return user;
+      })
+      // 3. Вывести image на 3 секунды (можно с анимацией)
+      .then(result => {
+        console.log('a7',result);
+        
+    
+        let img = new Image();
+        img.src = '/Diplom_1.jpg' ;
+        img.className = "promise-example";
+        document.body.appendChild(img);
+    
+        return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          img.remove();
+          // после таймаута — вызов resolve,
+          // можно без результата, чтобы управление перешло в следующий then
+          // (или можно передать данные пользователя дальше по цепочке)
+          resolve();
+        }, 3000);
+      });
+        // (*)
+      })
+      .catch(error => {
+        alert(error); // Error: Not Found
+      }); 
+  </script>
+</body>
+
+</html>

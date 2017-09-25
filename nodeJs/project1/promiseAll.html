@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <script>
+    'use strict';
+     function httpGet(url) {
+
+  return new Promise(function(resolve, reject) {
+
+    var xhr = new XMLHttpRequest();
+    console.log('b4',xhr,'b4');
+//Открывает файл - мой      
+   xhr.open('GET', url, true);
+//console.log('b5',fil,'b5');
+//lithing event      
+    xhr.onload = function() {
+      if (this.status == 200) {
+        resolve(this.response);
+      } else {
+        var error = new Error(this.statusText);
+        error.code = this.status;
+        reject(error);
+      }
+    };
+
+    xhr.onerror = function() {
+      reject(new Error("Network Error"));
+    };
+//console.log('c1', xhr, xhr.send( ), 'c1');
+    xhr.send();
+  });
+        
+
+}
+   <!--
+//   Что, если мы хотим осуществить несколько асинхронных процессов одновременно и обработать их результат?
+//
+//В классе Promise есть следующие статические методы.
+//
+//Promise.all(iterable)
+//
+//Вызов Promise.all(iterable) получает массив (или другой итерируемый объект) промисов и возвращает промис, который ждёт, пока все переданные промисы завершатся, и переходит в состояние «выполнено» с массивом их результатов.
+//
+//Например:   
+      
+//    Promise.all([
+//      httpGet('/users.json'),
+//      httpGet('/index1.html')
+//    ]).then(results => {
+//      alert(results[1]);
+//    });
+// 
+//      Допустим, у нас есть массив с URL.
+//
+//let urls = [
+//  '/article/promise/user.json',
+//  '/article/promise/guest.json'
+//];
+//Чтобы загрузить их параллельно, нужно:
+//
+//Создать для каждого URL соответствующий промис.
+//Обернуть массив таких промисов в Promise.all.
+//Получится так:
+ //or     
+//   let urls = [
+//      '/users.json',
+//      '/index1.html'
+//    ];
+//    
+//    Promise.all( urls.map(httpGet) )
+//      .then(results => {
+//        alert(results[1]);
+//      });
+//    Заметим, что если какой-то из промисов завершился с ошибкой, то результатом Promise.all будет эта ошибка. При этом остальные промисы игнорируются.
+//
+//Например:  
+      //or
+//      let urls = [
+//      '/users.json',
+//      '/index1.html',
+//       '/nofile'   
+//    ];
+//      Promise.all( urls.map(httpGet) )
+//      .then(
+//  result => alert("не сработает"),
+//  error => alert("Ошибка: " + error.message) // Ошибка: Not Found
+//)
+//      
+//  Вызов Promise.race, как и Promise.all, получает итерируемый объект с промисами, которые нужно выполнить, и возвращает новый промис.
+//
+//Но, в отличие от Promise.all, результатом будет только первый успешно выполнившийся промис из списка. Остальные игнорируются.
+//
+//Например:
+
+// Promise.race([
+//  httpGet('/users.json'),
+//  httpGet('/index1.html')
+//]).then(firstResult => {
+//  firstResult = JSON.parse(firstResult);
+//  alert( firstResult.user1.name ); // смотря что загрузится раньше
+//});
+//      
+// Вызов Promise.resolve(value) создаёт успешно выполнившийся промис с результатом value.
+//
+//Он аналогичен конструкции:
+//
+//new Promise((resolve) => resolve(value))
+//Promise.resolve используют, когда хотят построить асинхронную цепочку, и начальный результат уже есть.
+//
+//Например:
+
+// Promise.resolve(window.location) // начать с этого значения
+ // .then(httpGet) // вызвать для него httpGet
+//  .then(alert) // и вывести результат 
+-->
+    
+  </script>
+ rew
+</body>
+
+</html>

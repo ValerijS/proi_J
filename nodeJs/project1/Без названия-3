@@ -1,0 +1,16 @@
+script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+style .floating-box {display:inline-block; width: 350px; height: 175px; margin: 10px; border: 3px solid #73AD21;}
+p
+-var i = 0
+each school in schools
+ - i++
+  div(class='floating-box', id= i, numb= school.nameOrNumber, onclick= "onClick(event,this)")
+   -var j = 0 
+    each val, index in school
+     - j++
+      span <br> #{index}
+       input(type='text', name= index, id= i + j*1000, tile= i,  onchange="onChange(event, this)", value= val) 
+div(class='floating-box',  onclick= "onClick1(event,this)")
+ 
+button(onclick= "onClick2(event,this)") 'delete'
+script(src="JavaScript/schoolInput.js")
